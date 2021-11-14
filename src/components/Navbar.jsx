@@ -16,24 +16,25 @@ const NavContainer = styled.div`
 const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
-  //   flex-wrap: nowrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: space-around;
   height: 60px;
   ${medium({ height: "50px", padding: " 10px 0" })}
 `;
 const Left = styled.div`
-  dispaly: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Cookie", cursive;
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 2rem;
+  height: auto;
   flex: 1;
   text-decoration: none;
   color: white;
-  ${medium({ fontSize: "2rem", marginRight: "0", flex: "0" })}
-  ${small({ fontSize: "1.4rem" })}
+  ${medium({ fontSize: "1rem", marginRight: "0", flex: "0" })}
+  ${small({ fontSize: "1rem" })}
 `;
 const Middle = styled.div`
   flex: 3;
@@ -47,9 +48,9 @@ const Input = styled.input`
   border-radius: 5px;
   border: none;
   padding: 5px;
-  ${medium({ width: "10rem" })}
-  ${small({ width: "4rem" })}
-${large({ width: "7rem" })}
+  ${medium({ width: "10rem" })};
+  ${small({ width: "4rem" })};
+  ${large({ width: "7rem" })};
   &:focus {
     outline: none;
   }
@@ -60,6 +61,7 @@ const SearchIcon = styled(Search)`
   color: #25283d;
   border-radius: 5px;
   position: relative;
+
   left: -7.5px;
 
   padding: 9px;
@@ -116,7 +118,7 @@ const Navbar = () => {
           <p>Logout</p>
           <Item>
             <p>
-              <Badge>
+              <Badge badgeContent={4} color="primary">
                 <ShoppingCartOutlined />
               </Badge>
             </p>

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { small, medium, large } from "../responsive";
 
 import { Badge } from "@material-ui/core";
 import {
@@ -15,18 +16,86 @@ const NavContainer = styled.div`
 const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
-  flex-wrap: nowrap;
+  //   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-around;
   height: 60px;
+  ${medium({ height: "50px", padding: " 10px 0" })}
 `;
-const Left = styled.div``;
-const Middle = styled.div``;
-const Input = styled.div``;
+const Left = styled.div`
+  dispaly: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Cookie", cursive;
+  cursor: pointer;
+  font-size: 1rem;
+  flex: 1;
+  text-decoration: none;
+  color: white;
+  ${medium({ fontSize: "2rem", marginRight: "0", flex: "0" })}
+  ${small({ fontSize: "1.4rem" })}
+`;
+const Middle = styled.div`
+  flex: 3;
+  display: flex;
+  justify-content: center;
+  ${medium({ flex: "0" })}
+`;
+const Input = styled.input`
+  height: 32px;
+  width: 20rem;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  ${medium({ width: "10rem" })}
+  ${small({ width: "4rem" })}
+${large({ width: "7rem" })}
+  &:focus {
+    outline: none;
+  }
+`;
 
-const Right = styled.div``;
-const Item = styled.div``;
-const SmallerDiv = styled.div``;
+const SearchIcon = styled(Search)`
+  background-color: white;
+  color: #25283d;
+  border-radius: 5px;
+  position: relative;
+  left: -7.5px;
+
+  padding: 9px;
+  cursor: pointer;
+`;
+
+const Right = styled.div`
+  flex: 1;
+  display: flex;
+  gap: 0.8rem;
+  justify-content: end;
+  ${medium({ flex: "0", marginRight: "0.65rem" })}
+  /* ${small({ fontSize: "0.6rem !important", gap: "0.2rem" })} */
+${small({ display: "none" })}
+`;
+const Item = styled.div`
+display:flex;
+align-items:center;
+
+
+& > *{
+cursor: pointer;
+font-size: 1.12rem;
+${small({ fontSize: "0.6rem !important" })}
+${medium({ fontSize: "1rem !important" })}
+`;
+const SmallerDiv = styled.div`
+  padding: 10px 20px;
+  display: none;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  ${medium({ height: "50px", padding: " 10px 0" })}
+  ${small({ display: "flex" })}
+`;
 
 const Navbar = () => {
   return (
@@ -37,7 +106,7 @@ const Navbar = () => {
         </Left>
         <Middle>
           <Input type="text" value="hello" placeholder="search..." />
-          <Search />
+          <SearchIcon />
         </Middle>
         <Right>
           <p>Hi</p>
@@ -63,7 +132,7 @@ const Navbar = () => {
           <p>Hi</p>
         </Item>
         <Item>
-          <p>Explore</p>
+          <p>Explor</p>
         </Item>
         <Item>
           <p>Login</p>

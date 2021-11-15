@@ -40,14 +40,17 @@ const Middle = styled.div`
   flex: 3;
   display: flex;
   justify-content: center;
+
   ${medium({ flex: "0" })}
 `;
 const Input = styled.input`
   height: 32px;
   width: 20rem;
-  border-radius: 5px;
+
   border: none;
   padding: 5px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
   ${medium({ width: "10rem" })};
   ${small({ width: "4rem" })};
   ${large({ width: "7rem" })};
@@ -58,13 +61,15 @@ const Input = styled.input`
 
 const SearchIcon = styled(Search)`
   background-color: white;
-  color: #25283d;
-  border-radius: 5px;
+  height: 40px;
+  color: #05060c;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
   position: relative;
+  top: 0;
+  right: 0px;
 
-  left: -7.5px;
-
-  padding: 9px;
+  padding: 16px;
   cursor: pointer;
 `;
 
@@ -78,15 +83,15 @@ const Right = styled.div`
 ${small({ display: "none" })}
 `;
 const Item = styled.div`
-display:flex;
-align-items:center;
+  display: flex;
+  align-items: center;
 
-
-& > *{
-cursor: pointer;
-font-size: 1.12rem;
-${small({ fontSize: "0.6rem !important" })}
-${medium({ fontSize: "1rem !important" })}
+  & > * {
+    cursor: pointer;
+    font-size: 1.12rem;
+    ${small({ fontSize: "0.6rem !important" })}
+    ${medium({ fontSize: "1rem !important" })}
+  }
 `;
 const SmallerDiv = styled.div`
   padding: 10px 20px;

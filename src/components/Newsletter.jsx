@@ -23,27 +23,31 @@ const Input = styled.input`
   color: #777;
   border: none;
   border-radius: 5px;
+
   &:focus {
     outline: none;
   }
 `;
 const Button = styled.button`
-  height: 2.64rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
 
   padding: 7px;
   border: none;
   background-color: white;
   color: #a675a1;
   cursor: pointer;
-  position: relative;
-  top: 5.3px;
-  left: -5px;
+  position: absolute;
+  top: 0px;
+  right: -30px;
   border-left: 1.5px solid #a675a1;
   border-bottom-right-radius: 5px;
   border-top-right-radius: 5px;
 
   &:focus {
-    border: 1px solid #000;
+    background-color: #000;
+    color: #fff;
   }
 `;
 
@@ -59,7 +63,7 @@ const Newsletter = () => {
             Grab your discount and timely updates for your favourite product
           </p>
         </div>
-        <div>
+        <div class="position-relative">
           <Input type="text" placeholder="your Email" />
           <Button>
             <SendOutlined />

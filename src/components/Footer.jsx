@@ -36,7 +36,7 @@ const Right = styled.div`
 `;
 const OwnerDiv = styled.div`
   display: flex;
-  height: 2rem;
+  height: 3rem;
   background-color: black;
   color: white;
   align-items: center;
@@ -91,7 +91,7 @@ const Footer = () => {
       </MainContainer>
       <OwnerDiv>
         <div className="p-2"> Developed by Muthu</div>
-        <div className="d-flex gap-1 m-3 p-3 ">
+        <div className="d-flex gap-1  ">
           <div>
             <EmailOutlined />
             mkandanmk7@gmail.com

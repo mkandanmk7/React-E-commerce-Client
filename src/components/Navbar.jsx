@@ -63,11 +63,12 @@ const SearchIcon = styled(Search)`
   background-color: white;
   height: 40px;
   color: #05060c;
+
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   position: relative;
   top: 0;
-  right: 0px;
+  right: -2px;
 
   padding: 16px;
   cursor: pointer;
@@ -157,7 +158,7 @@ const Navbar = () => {
             </Badge>
           </p>
         </Item>
-        <Item>
+        <Item className="d-flex align-items-center">
           <LocalMallOutlined />
         </Item>
       </SmallerDiv>

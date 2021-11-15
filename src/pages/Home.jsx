@@ -6,6 +6,7 @@ import LowerAnnouncement from "../components/LowerAnnouncement";
 import Slider from "../components/Slider";
 import Brands from "../components/Brands";
 import Items from "../components/Items";
+import Newsletter from "../components/Newsletter";
 
 const MainContainer = styled.div`
   background-color: whitesmoke;
@@ -21,6 +22,7 @@ const Home = () => {
         <Slider />
         <Brands />
         <Items />
+        <Newsletter />
       </MainContainer>
     </div>
   );

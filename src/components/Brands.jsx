@@ -32,15 +32,22 @@ const BrandOuter = styled.div`
 `;
 const BrandInner = styled.div`
   display: flex;
+
   height: 20rem;
   background-color: #efd9ce;
   transition: all 0.2s linear;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   /* box-shadow: 3px 3px 10px 7px #cea2ac; */
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  transition: 0.2s ease-in;
+
   &:hover {
-    transform: scale(0.9);
+    transform: scale(0.97);
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+      rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   }
 `;
 
@@ -76,6 +83,9 @@ const Button = styled.button`
   padding: 10px;
   background-color: black;
   color: whitesmoke;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 
   &:hover {
     background-color: whitesmoke;
@@ -97,7 +107,6 @@ const Brands = () => {
           i++;
           return (
             <BrandInner>
-              ]
               <BrandImage>
                 <img
                   src={brandArray[i]}
@@ -113,14 +122,14 @@ const Brands = () => {
                   <p>{brand.description}</p>
                 </BrandDesc>
                 <BrandButton>
+                  {/* <img
+                    src={brandArray[i]}
+                    height="430rem"
+                    width="100%"
+                    style={{ objectFit: "cover" }}
+                    alt="clinique"
+                  /> */}
                   <Button>
-                    <img
-                      src={brandArray[i]}
-                      height="430rem"
-                      width="100%"
-                      style={{ objectFit: "cover" }}
-                      alt="clinique"
-                    />
                     <h3>Shop Now</h3>
                   </Button>
                 </BrandButton>

@@ -8,15 +8,69 @@ import LowerAnnouncement from "../components/LowerAnnouncement";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import UpperAnnouncement from "../components/UpperAnnouncement";
+import { large, medium } from "../responsive";
 
 //styled comp
-const MainContainer = styled.div``;
-const TopButtons = styled.div``;
-const Button = styled.div``;
-const Container = styled.div``;
-const OrderContainer = styled.div``;
-const SummaryContainer = styled.div``;
-const SummaryLine = styled.div``;
+const MainContainer = styled.div`
+  background-color: whitesmoke;
+`;
+const TopButtons = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 8rem;
+  ${medium({ margin: "2rem 1rem" })}
+`;
+const Button = styled.div`
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  background-color: #464141;
+  color: white;
+  border-radius: 7px;
+  padding: 10px;
+  cursor: pointer;
+  margin: 1rem;
+  transition: 0.3s ease;
+
+  &:hover {
+    background-color: white;
+    color: black;
+    box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
+  }
+  &:focus {
+    color: #0f0;
+  }
+`;
+const Container = styled.div`
+  margin: 2rem 8rem;
+  display: flex;
+  gap: 2rem;
+  ${large({ margin: "2rem 1rem", gap: "0" })}
+  ${medium({ flexDirection: "column" })}
+`;
+const OrderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 75%;
+  height: 100%;
+  gap: 2rem;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  ${medium({ width: "100%" })}
+`;
+const SummaryContainer = styled.div`
+  background-color: white;
+  padding: 18px;
+  width: 25%;
+  height: 100%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  ${medium({ width: "100%" })}
+`;
+const SummaryLine = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+`;
 
 const Cart = () => {
   const [alert, setAlert] = useState(true);
@@ -111,9 +165,13 @@ const Cart = () => {
                   )}
                 </div> */}
 
-                <div style={{ color: "red" }}>
-                  <p>IMP Note:</p>
-                  <p>Please use the below credentials to checkout</p>
+                <div className="text-danger my-5 ">
+                  <p className="text-center bg-info p-3 text-light">
+                    <b>IMPORTANT *</b>
+                  </p>
+                  <p>
+                    <b>Please use the below credentials to checkout</b>
+                  </p>
                   <p>
                     card number: <b>4242424242424242</b>
                   </p>

@@ -31,15 +31,16 @@ const Card = styled.div`
   align-items: center;
   gap: 0.5rem;
   transition: all 0.2s linear;
-  overflow: hidden;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  border-radius: 8px;
+  /* overflow: hidden; */
 
   /* hover */
   &:hover {
     transform: scale(0.95);
-    border-radius: 8px;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-      rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    box-shadow: rgb(38, 57, 77) 0px 20px 10px -10px;
   }
 `;
 

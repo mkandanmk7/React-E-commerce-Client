@@ -4,17 +4,36 @@ import LowerAnnouncement from "../components/LowerAnnouncement";
 import Navbar from "../components/Navbar";
 import Slider from "../components/Slider";
 import UpperAnnouncement from "../components/UpperAnnouncement";
+import Newsletter from "../components/Newsletter";
+import Footer from "../components/Footer";
 
 //multi range slide comp
 import MultiRangeSlider from "multi-range-slider-react";
 import Products from "../components/Products";
+import { large } from "../responsive";
 
 //styled components
-const FilterContainer = styled.div``;
+const MainContainer = styled.div`
+  background-color: whitesmoke;
+`;
 
-const MainContainer = styled.div``;
+const OuterContainer = styled.div`
+  margin: 2rem 8rem;
+  display: flex;
+  ${large({ margin: "2rem 0" })}
+`;
 
-const OuterContainer = styled.div``;
+const FilterContainer = styled.div`
+  width: 20rem;
+  min-width: 10rem;
+  padding: 15px;
+
+  position: sticky;
+  align-self: flex-start;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+`;
 
 const SortBy = styled.div``;
 
@@ -151,6 +170,108 @@ const ProductList = () => {
                 />
               </div>
             </CheckboxContainer>
+
+            <BrandContainer>
+              <p>
+                <b>Items</b>
+              </p>
+              <CheckboxContainer>
+                <div>
+                  <label>Lipstick</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    name="lipstick"
+                    value="lipstick"
+                    checked={false}
+                    //   onChange={(event) => {
+                    //     handleProductType(event);
+                    //   }}
+                  />
+                </div>
+              </CheckboxContainer>
+              <CheckboxContainer>
+                <div>
+                  <label>Foundation</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    name="foundation"
+                    value="foundation"
+                    checked={false}
+                    //   onChange={(event) => {
+                    //     handleProductType(event);
+                    //   }}
+                  />
+                </div>
+              </CheckboxContainer>
+              <CheckboxContainer>
+                <div>
+                  <label>Mascara</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    name="mascara"
+                    value="mascara"
+                    checked={false}
+                    //   onChange={(event) => {
+                    //     handleProductType(event);
+                    //   }}
+                  />
+                </div>
+              </CheckboxContainer>
+              <CheckboxContainer>
+                <div>
+                  <label>Eyeliner</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    name="eyeliner"
+                    value="eyeliner"
+                    checked={false}
+                    //   onChange={(event) => {
+                    //     handleProductType(event);
+                    //   }}
+                  />
+                </div>
+              </CheckboxContainer>
+              <CheckboxContainer>
+                <div>
+                  <label>Bronzer</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    name="bronzer"
+                    value="bronzer"
+                    checked={false}
+                    //   onChange={(event) => {
+                    //     handleProductType(event);
+                    //   }}
+                  />
+                </div>
+              </CheckboxContainer>
+              <CheckboxContainer>
+                <div>
+                  <label>Blush</label>
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    name="blush"
+                    value="blush"
+                    checked={false}
+                    //   onChange={(event) => {
+                    //     handleProductType(event);
+                    //   }}
+                  />
+                </div>
+              </CheckboxContainer>
+            </BrandContainer>
           </BrandContainer>
           <BrandContainer style={{ margin: "1.5rem 0" }}>
             <p>
@@ -175,11 +296,10 @@ const ProductList = () => {
         </FilterContainer>
         <ProductsContainer>
           <Products />
-          <Products />
-          <Products />
-          <Products />
         </ProductsContainer>
       </OuterContainer>
+      <Newsletter />
+      <Footer />
     </MainContainer>
   );
 };

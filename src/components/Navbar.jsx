@@ -10,6 +10,9 @@ import {
 } from "@material-ui/icons";
 
 const NavContainer = styled.div`
+  position: sticky;
+  top: 0px;
+  width: 100%;
   background-color: #25283d;
   color: #fff; ;
 `;

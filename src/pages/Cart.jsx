@@ -30,11 +30,13 @@ const Button = styled.div`
   padding: 10px;
   cursor: pointer;
   margin: 1rem;
+  font-weight: 700;
   transition: 0.3s ease;
 
   &:hover {
-    background-color: white;
-    color: black;
+    background-color: #000;
+    color: #fff;
+
     box-shadow: rgb(38, 57, 77) 0px 20px 20px -10px;
   }
   &:focus {

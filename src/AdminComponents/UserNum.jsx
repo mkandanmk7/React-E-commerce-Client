@@ -2,7 +2,12 @@ import React from "react";
 import styled from "styled-components";
 
 //styled comp
-const TableContainer = styled.div``;
+const TableContainer = styled.div`
+  width: 100%;
+  margin: 1.5rem 0;
+  padding: 10px;
+  background-color: white;
+`;
 
 const UserNum = () => {
   // const user=useSelector(state=>state.user)

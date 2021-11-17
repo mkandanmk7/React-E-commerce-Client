@@ -2,11 +2,13 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Cart from "./pages/Cart";
+import ForgetPassword from "./pages/ForgetPassword";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Order from "./pages/Order";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
+import Register from "./pages/Register";
 
 function App() {
   const user = false;
@@ -21,6 +23,8 @@ function App() {
           <Route path="/order" element={user ? <Order /> : <Login />} />
           {/* login register pages */}
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forget" element={<ForgetPassword />} />
         </Routes>
       </BrowserRouter>
     </>

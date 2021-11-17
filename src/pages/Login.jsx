@@ -101,7 +101,16 @@ const Login = () => {
         <Brand>MakeYouUp</Brand>
 
         <FormContainer>
-          <div style={{ textAlign: "center", fontSize: "1.5rem" }}>Sign In</div>
+          <div
+            style={{
+              textAlign: "center",
+              fontSize: "1.5rem",
+              fontWeight: "700",
+              fontFamily: "Arial, Helvetica, sans-serif",
+            }}
+          >
+            Sign In
+          </div>
           <hr />
           <Formik
             initialValues={{

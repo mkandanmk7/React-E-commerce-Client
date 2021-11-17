@@ -9,6 +9,7 @@ import Order from "./pages/Order";
 import Product from "./pages/Product";
 import ProductList from "./pages/ProductList";
 import Register from "./pages/Register";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   const user = false;
@@ -25,6 +26,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forget" element={<ForgetPassword />} />
+          <Route path="/resetpassword/:id/:token" element={<ResetPassword />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -2,6 +2,7 @@
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminHome from "./AdminPages/AdminHome";
+import AdminProductEdit from "./AdminPages/AdminProductEdit";
 import AdminProductList from "./AdminPages/AdminProductList";
 import Cart from "./pages/Cart";
 import ForgetPassword from "./pages/ForgetPassword";
@@ -36,6 +37,7 @@ function App() {
           {/* Admin page Routes*/}
           <Route path="/adminhome" element={<AdminHome />} />
           <Route path="/adminproductlist" element={<AdminProductList />} />
+          <Route path="/adminproductedit" element={<AdminProductEdit />} />
         </Routes>
       </BrowserRouter>
     </>

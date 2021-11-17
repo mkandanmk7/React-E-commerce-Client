@@ -4,6 +4,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AdminHome from "./AdminPages/AdminHome";
 import AdminProductEdit from "./AdminPages/AdminProductEdit";
 import AdminProductList from "./AdminPages/AdminProductList";
+import AdminUserList from "./AdminPages/AdminUserList";
+import AdminUserEdit from "./AdminPages/AdminUserEdit";
+import AdminUserAdd from "./AdminPages/AdminUserAdd";
 import Cart from "./pages/Cart";
 import ForgetPassword from "./pages/ForgetPassword";
 import Home from "./pages/Home";
@@ -38,6 +41,10 @@ function App() {
           <Route path="/adminhome" element={<AdminHome />} />
           <Route path="/adminproductlist" element={<AdminProductList />} />
           <Route path="/adminproductedit" element={<AdminProductEdit />} />
+          <Route path="/adminuserlist" element={<AdminUserList />} />
+
+          <Route path="/adminuseredit/:id" element={<AdminUserEdit />} />
+          <Route path="/adminuseradd" element={<AdminUserAdd />} />
         </Routes>
       </BrowserRouter>
     </>

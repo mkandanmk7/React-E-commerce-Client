@@ -35,7 +35,7 @@ const Input = styled(Field)`
 const TextArea = styled(Field)`
   height: 4rem;
   margin: 1rem 0;
-  width: 30rem;
+  width: 25rem;
   text-align: center;
   ${small({ width: "18rem" })}
 `;

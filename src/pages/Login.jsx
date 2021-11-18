@@ -4,10 +4,12 @@ import background from "../assets/login/login.jfif";
 import React, { useState } from "react";
 import Loader from "react-loader-spinner";
 import { Link } from "react-router-dom";
+import { login } from "../redux/apiCalls";
 import styled from "styled-components";
-// import { useHistory } from "react-router";
+import { useNavigate } from "react-router";
 import * as YUP from "yup";
 import { large } from "../responsive";
+import { useDispatch, useSelector } from "react-redux";
 
 //styled comp
 const Container = styled.div`
@@ -86,9 +88,18 @@ const Invalid = styled.div`
 `;
 
 const Login = () => {
-  //   const history = useHistory();
-  // const user=useSelector(state=>state.user)
+  const history = useNavigate();
+  const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
+
+  if (user.currentUser) {
+    console.log(user.currentUser.isAdmin); // is admin or not ?
+    if (user.currentUser.isAdmin) history("/adminHome");
+    else history("/");
+  }
+
+  const dispatch = useDispatch();
+  const { error } = useSelector((state) => state.user);
 
   //schema
   const signInSchema = YUP.object().shape({
@@ -112,6 +123,7 @@ const Login = () => {
             Sign In
           </div>
           <hr />
+
           <Formik
             initialValues={{
               email: "",
@@ -121,6 +133,11 @@ const Login = () => {
             onSubmit={(values, { resetForm }) => {
               console.log("in submit login");
               console.log(values);
+              setLoading(true);
+              login(dispatch, values);
+              resetForm();
+              setLoading(false);
+
               // setLoading(true);
 
               resetForm(); //reset inputs after submit

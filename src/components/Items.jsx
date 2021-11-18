@@ -8,6 +8,7 @@ import blush from "../assets/Items/blush.jpg";
 import { productsData } from "../data";
 import styled from "styled-components";
 import { medium } from "../responsive";
+import { Link } from "react-router-dom";
 
 //sytled components
 const ItemContainer = styled.div`
@@ -104,7 +105,11 @@ const Items = () => {
                   <h2>{item.productName}</h2>
                 </div>
                 <div>
-                  <Button>Shop Now</Button>
+                  <Link
+                    to={`/products/product_type/${item.productName.toLocaleLowerCase()}`}
+                  >
+                    <Button>Shop Now</Button>
+                  </Link>
                 </div>
               </HideCard>
             </InnerContainer>

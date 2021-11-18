@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import "./productList.css";
 import styled from "styled-components";
 import LowerAnnouncement from "../components/LowerAnnouncement";
 import Navbar from "../components/Navbar";
@@ -11,6 +12,8 @@ import Footer from "../components/Footer";
 import MultiRangeSlider from "multi-range-slider-react";
 import Products from "../components/Products";
 import { large } from "../responsive";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
 //styled components
 const MainContainer = styled.div`
@@ -44,6 +47,89 @@ const CheckboxContainer = styled.div``;
 const ProductsContainer = styled.div``;
 
 const ProductList = () => {
+  const search = useSelector((state) => state.search);
+
+  const location = useLocation();
+
+  //initial filter
+
+  const [filter, setFilter] = useState({
+    brand: [],
+    product_type: [],
+    price: "",
+    sort: "",
+    name: "",
+  });
+
+  //initial brand check box values;
+
+  const [brand, setBrand] = useState({
+    nyx: false,
+    clinique: false,
+    maybelline: false,
+    covergirl: false,
+    loreal: false,
+    colourpop: false,
+  });
+
+  //initaial product type checkbox values
+  const [product_type, setProductType] = useState({
+    lipstick: false,
+    foundation: false,
+    mascara: false,
+    eyeliner: false,
+    bronzer: false,
+    blush: false,
+  });
+
+  //for slider values
+  const [minValue, set_minValue] = useState(10);
+  const [maxValue, set_maxValue] = useState(20);
+
+  let tempMin, tempMax;
+
+  //initial sort
+  const [sort, setSort] = useState("");
+
+  let tempSort = "";
+
+  //handle filter
+
+  const handleFilter = () => {};
+
+  //handle brand
+  const handleBrand = () => {};
+
+  //handle product_type
+  const handleProductType = () => {};
+
+  //handle sort
+  const handleSort = () => {};
+
+  //handle input
+  const handleInput = () => {};
+
+  useEffect(() => {
+    const temp = location.pathname.split("/");
+    if (temp[2] === "brand" || temp[2] === "product_type") {
+      console.log("in product mounted");
+      let event = {
+        target: {
+          name: temp[3],
+          checked: true,
+        },
+      };
+      console.log(temp[2]);
+      // url path is same with brand or product type:
+      temp[2] === "brand" ? handleBrand(event) : handleProductType(event);
+    } else if (temp[2] && temp[2] === "name") {
+      console.log("in", temp[2]);
+      handleFilter("name");
+    } else {
+      setFilter({ ...filter, name: "" });
+    }
+  }, [location]);
+
   return (
     <MainContainer>
       {/* common for top navigation */}
@@ -67,6 +153,9 @@ const ProductList = () => {
                 maxWidth: "8rem",
                 fontSize: "1rem",
               }}
+              onChange={(e) => {
+                handleSort(e);
+              }}
             >
               <option disabled selected>
                 Price Range
@@ -87,7 +176,13 @@ const ProductList = () => {
                 <label>NYX</label>
               </div>
               <div>
-                <input type="checkbox" name="nyx" value="nyx" checked="nyx" />
+                <input
+                  type="checkbox"
+                  name="nyx"
+                  value="nyx"
+                  checked={brand.nyx}
+                  onChange={(e) => handleBrand(e)}
+                />
               </div>
             </CheckboxContainer>
             <CheckboxContainer>
@@ -99,10 +194,10 @@ const ProductList = () => {
                   type="checkbox"
                   name="clinique"
                   value="clinique"
-                  //   checked="clinique"
-                  //   onChange={(event) => {
-                  //     handleBrand(event);
-                  //   }}
+                  checked={brand.clinique}
+                  onChange={(event) => {
+                    handleBrand(event);
+                  }}
                 />
               </div>
             </CheckboxContainer>
@@ -115,10 +210,10 @@ const ProductList = () => {
                   type="checkbox"
                   name="maybelline"
                   value="maybellibne"
-                  checked="clinique"
-                  //   onChange={(event) => {
-                  //     handleBrand(event);
-                  //   }}
+                  checked={brand.maybelline}
+                  onChange={(event) => {
+                    handleBrand(event);
+                  }}
                 />
               </div>
             </CheckboxContainer>
@@ -131,10 +226,10 @@ const ProductList = () => {
                   type="checkbox"
                   name="covergirl"
                   value="covergirl"
-                  checked="clinique"
-                  //   onChange={(event) => {
-                  //     handleBrand(event);
-                  //   }}
+                  checked={brand.covergirl}
+                  onChange={(event) => {
+                    handleBrand(event);
+                  }}
                 />
               </div>
             </CheckboxContainer>
@@ -147,10 +242,10 @@ const ProductList = () => {
                   type="checkbox"
                   name="loreal"
                   value="loreal"
-                  checked="clinique"
-                  //   onChange={(event) => {
-                  //     handleBrand(event);
-                  //   }}
+                  checked={brand.loreal}
+                  onChange={(event) => {
+                    handleBrand(event);
+                  }}
                 />
               </div>
             </CheckboxContainer>
@@ -163,10 +258,10 @@ const ProductList = () => {
                   type="checkbox"
                   name="colourpop"
                   value="colourpop"
-                  checked="clinique"
-                  //   onChange={(event) => {
-                  //     handleBrand(event);
-                  //   }}
+                  checked={brand.colourpop}
+                  onChange={(event) => {
+                    handleBrand(event);
+                  }}
                 />
               </div>
             </CheckboxContainer>
@@ -184,10 +279,10 @@ const ProductList = () => {
                     type="checkbox"
                     name="lipstick"
                     value="lipstick"
-                    checked={false}
-                    //   onChange={(event) => {
-                    //     handleProductType(event);
-                    //   }}
+                    checked={product_type.lipstick}
+                    onChange={(event) => {
+                      handleProductType(event);
+                    }}
                   />
                 </div>
               </CheckboxContainer>
@@ -200,10 +295,10 @@ const ProductList = () => {
                     type="checkbox"
                     name="foundation"
                     value="foundation"
-                    checked={false}
-                    //   onChange={(event) => {
-                    //     handleProductType(event);
-                    //   }}
+                    checked={product_type.foundation}
+                    onChange={(event) => {
+                      handleProductType(event);
+                    }}
                   />
                 </div>
               </CheckboxContainer>
@@ -216,10 +311,10 @@ const ProductList = () => {
                     type="checkbox"
                     name="mascara"
                     value="mascara"
-                    checked={false}
-                    //   onChange={(event) => {
-                    //     handleProductType(event);
-                    //   }}
+                    checked={product_type.mascara}
+                    onChange={(event) => {
+                      handleProductType(event);
+                    }}
                   />
                 </div>
               </CheckboxContainer>
@@ -232,10 +327,10 @@ const ProductList = () => {
                     type="checkbox"
                     name="eyeliner"
                     value="eyeliner"
-                    checked={false}
-                    //   onChange={(event) => {
-                    //     handleProductType(event);
-                    //   }}
+                    checked={product_type.eyeliner}
+                    onChange={(event) => {
+                      handleProductType(event);
+                    }}
                   />
                 </div>
               </CheckboxContainer>
@@ -248,10 +343,10 @@ const ProductList = () => {
                     type="checkbox"
                     name="bronzer"
                     value="bronzer"
-                    checked={false}
-                    //   onChange={(event) => {
-                    //     handleProductType(event);
-                    //   }}
+                    checked={product_type.bronzer}
+                    onChange={(event) => {
+                      handleProductType(event);
+                    }}
                   />
                 </div>
               </CheckboxContainer>
@@ -264,10 +359,10 @@ const ProductList = () => {
                     type="checkbox"
                     name="blush"
                     value="blush"
-                    checked={false}
-                    //   onChange={(event) => {
-                    //     handleProductType(event);
-                    //   }}
+                    checked={product_type.blush}
+                    onChange={(event) => {
+                      handleProductType(event);
+                    }}
                   />
                 </div>
               </CheckboxContainer>
@@ -285,11 +380,11 @@ const ProductList = () => {
                 ruler={false}
                 label={true}
                 preventWheel={false}
-                // minValue={minValue}
-                // maxValue={maxValue}
-                // onInput={(e) => {
-                //   handleInput(e);
-                // }}
+                minValue={minValue}
+                maxValue={maxValue}
+                onInput={(e) => {
+                  handleInput(e);
+                }}
               />
             </div>
           </BrandContainer>

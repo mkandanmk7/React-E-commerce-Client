@@ -112,6 +112,12 @@ const ProductList = () => {
       }
       console.log(trueItems);
       setFilter({ ...filter, product_type: trueItems });
+    } else if (type === "sort") {
+      console.log(tempSort);
+
+      setFilter({ ...filter, sort: tempSort });
+      console.log(sort);
+      console.log(filter);
     } else if (type === "price") {
       let price = `${tempMin},${tempMax}`;
       // console.log(price)
@@ -435,7 +441,7 @@ const ProductList = () => {
           </BrandContainer>
         </FilterContainer>
         <ProductsContainer>
-          <Products />
+          <Products filters={filter} />
         </ProductsContainer>
       </OuterContainer>
       <Newsletter />

@@ -1,10 +1,12 @@
 import { Add, Remove } from "@material-ui/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
 import Loader from "react-loader-spinner";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router";
 import StarRatings from "react-star-ratings";
 import styled from "styled-components";
+import { publicRequest } from "../axiosMethod";
 import Footer from "../components/Footer";
 import LowerAnnouncement from "../components/LowerAnnouncement";
 import Navbar from "../components/Navbar";
@@ -113,33 +115,49 @@ const CartButton = styled.div`
 
 const Product = () => {
   //states
-  //   let [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(false);
+  let [product, setProduct] = useState({});
+  const [loading, setLoading] = useState(true);
   let [shadeIn, setShade] = React.useState("");
   let [quantity, setQuantity] = React.useState(1);
   const id = useParams().productId;
-  // const dispatch=useDispatch()
-  const [alert, setAlert] = useState(true);
+  const dispatch = useDispatch();
+  const [alert, setAlert] = useState(false);
   const [error, setError] = useState(false);
 
   //product single
 
-  const product = {
-    name: "lipstick ajdfaeofajel;faf w;ef oawpj fewpaojfeiopwja feopjfawj ff; fewoafwaojf owafj",
-    brand: "nykaa",
-    price: "100",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur ab fuga expedita maiores itaque, dolores voluptate eum. Harum deserunt eius architecto voluptatibus soluta debitis. Obcaecati iste ex animi voluptas accusantium",
-    product_colors: [
-      { hex_value: "#acd" },
-      { hex_value: "#fcd" },
-      { hex_value: "#13d" },
-      { hex_value: "#aff" },
-    ],
-    rating: 3,
-    image_link:
-      "https://cdn.shopify.com/s/files/1/1338/0845/products/brain-freeze_a_800x1200.jpg?v=1502255076",
+  // const product = {
+  //   name: "lipstick ajdfaeofajel;faf w;ef oawpj fewpaojfeiopwja feopjfawj ff; fewoafwaojf owafj",
+  //   brand: "nykaa",
+  //   price: "100",
+  //   description:
+  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur ab fuga expedita maiores itaque, dolores voluptate eum. Harum deserunt eius architecto voluptatibus soluta debitis. Obcaecati iste ex animi voluptas accusantium",
+  //   product_colors: [
+  //     { hex_value: "#acd" },
+  //     { hex_value: "#fcd" },
+  //     { hex_value: "#13d" },
+  //     { hex_value: "#aff" },
+  //   ],
+  //   rating: 3,
+  //   image_link:
+  //     "https://cdn.shopify.com/s/files/1/1338/0845/products/brain-freeze_a_800x1200.jpg?v=1502255076",
+  // };
+
+  const getProduct = async (id) => {
+    try {
+      //id getting from url params ;
+      let res = await publicRequest.get(`/product/find/${id}`);
+      setProduct(res.data);
+      console.log(res.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
+  useEffect(() => {
+    getProduct(id);
+  }, [id]);
 
   //handleshade
   const handleShade = (value) => {
@@ -160,8 +178,21 @@ const Product = () => {
   //add cart
   const handleCart = () => {
     console.log(product);
-    window.alert("added to cart");
-    // let product_colors = shadeIn;
+    let product_colors = shadeIn;
+    let cartProduct = { ...product, quantity, product_colors };
+    console.log(cartProduct);
+    if (product.product_colors.length > 0) {
+      setAlert(true);
+      dispatch({ type: "addProduct", payload: cartProduct });
+      setError(false);
+    } else {
+      setError(true);
+    }
+    // else{
+    //   setAlert(true);
+    //   dispatch({type:"addProduct",payload:cartProduct});
+    //   setError(false);
+    // }
   };
 
   return (

@@ -4,6 +4,7 @@ import { userReducer } from "./userReducer";
 import storage from "redux-persist/lib/storage";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import { persistReducer, persistStore } from "redux-persist";
+import { searchReducer } from "./searchReducer";
 
 const persistConfig = {
   key: "root",
@@ -25,6 +26,7 @@ const enhancers = redux.compose(
 const rootReducer = redux.combineReducers({
   user: userReducer,
   cart: cartReducer,
+  search: searchReducer,
 });
 
 //persist reducer

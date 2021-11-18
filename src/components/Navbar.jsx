@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { small, medium, large } from "../responsive";
 
@@ -8,6 +8,10 @@ import {
   Search,
   ShoppingCartOutlined,
 } from "@material-ui/icons";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 
 const NavContainer = styled.div`
   position: sticky;
@@ -72,7 +76,6 @@ const SearchIcon = styled(Search)`
   position: relative;
   top: 0;
   right: -2px;
-
   padding: 16px;
   cursor: pointer;
 `;
@@ -109,31 +112,115 @@ const SmallerDiv = styled.div`
 `;
 
 const Navbar = () => {
+  const quantity = useSelector((state) => state.quantity);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  console.log(user);
+  const history = useNavigate();
+  const value = useSelector((state) => state.search.searchValue);
+  const [search, setSearch] = useState(value);
+
   return (
     <NavContainer>
       <Wrapper>
-        <Left>
-          <p>Make You Up</p>
-        </Left>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <Left>
+            <p>Make You Up</p>
+          </Left>
+        </Link>
         <Middle>
-          <Input type="text" value="hello" placeholder="search..." />
-          <SearchIcon />
+          <Input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="search..."
+          />
+          {search.length > 1 ? (
+            <Link to={`/products/name/${search.toLocaleLowerCase()}`}>
+              <SearchIcon
+                onClick={() => {
+                  dispatch({ type: "addValue", value: search });
+                }}
+                style={{ fontSize: 32 }}
+              />
+            </Link>
+          ) : (
+            <Link to={`/products/`}>
+              <SearchIcon
+                onClick={() => {
+                  dispatch({ type: "addValue", value: search });
+                }}
+                style={{ fontSize: 32 }}
+              />
+            </Link>
+          )}
         </Middle>
         <Right>
-          <p>Hi</p>
-          <p>Explore</p>
-          <p>Login</p>
-          <p>Register</p>
-          <p>Logout</p>
+          {user.currentUser && (
+            <>
+              <Item>
+                <p style={{ width: "5.5rem" }}>
+                  Hi,{user.currentUser.username}
+                </p>
+              </Item>
+            </>
+          )}
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            to={"/products"}
+          >
+            <Item>
+              <p>Explore</p>
+            </Item>
+          </Link>
+          {!user.currentUser && (
+            <>
+              <Link
+                to="/login"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Item>
+                  <p>LogIn</p>
+                </Item>
+              </Link>
+              <Link
+                to="/register"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Item>
+                  <p>Register</p>
+                </Item>
+              </Link>
+            </>
+          )}
+          {user.currentUser && (
+            <>
+              <Item>
+                <p
+                  onClick={() => {
+                    dispatch({ type: "logout" });
+                    history("/");
+                  }}
+                >
+                  Logout
+                </p>
+              </Item>
+            </>
+          )}
+
           <Item>
-            <p>
-              <Badge badgeContent={4} color="primary">
-                <ShoppingCartOutlined />
-              </Badge>
-            </p>
+            <Link style={{ color: "inherit" }} to="/cart">
+              <p>
+                <Badge badgeContent={quantity} color="primary">
+                  <ShoppingCartOutlined />
+                </Badge>
+              </p>
+            </Link>
           </Item>
           <Item>
-            <LocalMallOutlined />
+            <Link style={{ color: "inherit" }} to="/order">
+              <LocalMallOutlined />
+            </Link>
           </Item>
         </Right>
       </Wrapper>

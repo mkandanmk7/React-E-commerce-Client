@@ -191,9 +191,7 @@ const Login = () => {
                     )}
                   </div>
                   <div className="text-center">
-                    {/* { error &&
-                                    <Invalid>Invalid UserName/Password</Invalid>
-                                } */}
+                    {error && <Invalid>Invalid UserName/Password</Invalid>}
                     <Button type="submit">Log In</Button>
                   </div>
 

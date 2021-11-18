@@ -195,7 +195,7 @@ const Navbar = () => {
               <Item>
                 <p
                   onClick={() => {
-                    dispatch({ type: "logout" });
+                    dispatch({ type: "logOut" });
                     history("/");
                   }}
                 >

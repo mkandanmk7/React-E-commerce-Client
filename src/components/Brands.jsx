@@ -11,6 +11,7 @@ import colorpop from "../assets/Brands/colorpop.jpg";
 import { BrandData } from "../data";
 import styled from "styled-components";
 import { medium } from "../responsive";
+import { Link } from "react-router-dom";
 
 //css
 const BrandContainer = styled.div`
@@ -122,15 +123,13 @@ const Brands = () => {
                   <p>{brand.description}</p>
                 </BrandDesc>
                 <BrandButton>
-                  {/* <img
-                    src={brandArray[i]}
-                    height="430rem"
-                    width="100%"
-                    style={{ objectFit: "cover" }}
-                    alt="clinique"
-                  /> */}
                   <Button>
-                    <h3>Shop Now</h3>
+                    <Link
+                      style={{ textDecoration: "none", color: "inherit" }}
+                      to={`/products/brand/${brand.searchName}`}
+                    >
+                      <h3>Shop Now</h3>
+                    </Link>
                   </Button>
                 </BrandButton>
               </BrandText>

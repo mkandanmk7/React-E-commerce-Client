@@ -8,6 +8,7 @@ import styled from "styled-components";
 // import { useHistory } from "react-router";
 import * as YUP from "yup";
 import { large } from "../responsive";
+import axios from "axios";
 
 // style comp
 
@@ -119,18 +120,31 @@ const Register = () => {
               username: "",
               email: "",
               password: "",
-              confirmpassword: "",
+              confirmPassword: "",
             }}
             validationSchema={registerSchema}
-            onSubmit={(values, { resetForm }) => {
+            onSubmit={async (values, { resetForm }) => {
               console.log("in submit register");
+              setLoading(true);
               console.log(values);
+              try {
+                const { confirmPassword, ...other } = values;
+                const res = await axios.post(
+                  `https://muthu-ecommerce-server.herokuapp.com/auth/register`,
+                  other
+                );
+                console.log(res);
+                setInfo(
+                  "User created Successfully,Please Login with your Email/Password "
+                );
+                setLoading(false);
+                resetForm(); //clear inputs
+              } catch (error) {
+                setInfo("Email already exists");
+                setLoading(false);
+              }
 
               // setLoading(true);
-              resetForm(); //reset inputs after submit
-              setInfo(
-                "User created Successfully,Please Login with your Email/Password "
-              );
             }}
           >
             {() => {

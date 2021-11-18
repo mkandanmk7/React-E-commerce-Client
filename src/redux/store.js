@@ -3,7 +3,7 @@ import { cartReducer } from "./cartReducer";
 import { userReducer } from "./userReducer";
 import storage from "redux-persist/lib/storage";
 import { encryptTransform } from "redux-persist-transform-encrypt";
-import persistReducer from "redux-persist/es/persistReducer";
+import { persistReducer, persistStore } from "redux-persist";
 
 const persistConfig = {
   key: "root",
@@ -31,3 +31,5 @@ const rootReducer = redux.combineReducers({
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = redux.createStore(persistedReducer, enhancers);
+
+export let persistor = persistStore(store);

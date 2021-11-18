@@ -30,18 +30,15 @@ const Wrapper = styled.div`
   ${medium({ height: "50px", padding: " 10px 0" })}
 `;
 const Left = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-family: "Cookie", cursive;
   cursor: pointer;
-  font-size: 2rem;
-  height: auto;
+  font-size: 3rem;
   flex: 1;
   text-decoration: none;
   color: white;
-  ${medium({ fontSize: "1rem", marginRight: "0", flex: "0" })}
-  ${small({ fontSize: "1rem" })}
+
+  ${medium({ fontSize: "2rem", marginRight: "0", flex: "0" })}
+  ${small({ fontSize: "1.4rem" })}
 `;
 const Middle = styled.div`
   flex: 3;

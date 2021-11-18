@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./productList.css";
+import "./ProductList.css";
 import styled from "styled-components";
 import LowerAnnouncement from "../components/LowerAnnouncement";
 import Navbar from "../components/Navbar";
@@ -95,19 +95,64 @@ const ProductList = () => {
 
   //handle filter
 
-  const handleFilter = () => {};
+  const handleFilter = (type) => {
+    if (type === "brand") {
+      let trueItems = [];
+      for (let key in brand) {
+        console.log(key, brand[key]);
+        if (brand[key]) trueItems.push(key);
+        console.log(trueItems);
+      }
+      setFilter({ ...filter, brand: trueItems });
+    } else if (type === "product_type") {
+      console.log("in product type");
+      let trueItems = [];
+      for (let key in product_type) {
+        if (product_type[key]) trueItems.push(key);
+      }
+      console.log(trueItems);
+      setFilter({ ...filter, product_type: trueItems });
+    } else if (type === "price") {
+      let price = `${tempMin},${tempMax}`;
+      // console.log(price)
+      setFilter({ ...filter, price: price });
+      // console.log(filter)
+    } else if (type === "name") {
+      setFilter({ ...filter, name: search.searchValue });
+    }
+  };
 
   //handle brand
-  const handleBrand = () => {};
+  const handleBrand = ({ target: { name, checked } }) => {
+    brand[name] = checked;
+    setBrand({ ...brand });
+    handleFilter("brand");
+  };
 
   //handle product_type
-  const handleProductType = () => {};
+  const handleProductType = ({ target: { value, checked } }) => {
+    // eslint-disable-next-line no-restricted-globals
+    product_type[name] = checked;
+    setProductType({ ...product_type });
+    handleFilter("product_type");
+  };
 
   //handle sort
-  const handleSort = () => {};
+  const handleSort = ({ target: { value } }) => {
+    console.log("in", value);
+    setSort(value);
+    tempSort = value;
+    handleFilter("sort");
+  };
 
   //handle input
-  const handleInput = () => {};
+  const handleInput = (e) => {
+    set_minValue(e.minValue);
+    tempMin = e.minValue;
+    set_maxValue(e.maxValue);
+    tempMax = e.maxValue;
+    handleFilter("price");
+  };
 
   useEffect(() => {
     const temp = location.pathname.split("/");

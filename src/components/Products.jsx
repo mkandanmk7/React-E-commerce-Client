@@ -4,6 +4,7 @@ import StarRatings from "react-star-ratings";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router";
 import Loader from "react-loader-spinner";
+import { publicRequest } from "../axiosMethod";
 
 //styled comp
 
@@ -19,9 +20,9 @@ const OuterCard = styled.div`
 `;
 const Card = styled.div`
   background-color: white;
-  /* height: auto; */
+  height: 450px;
   cursor: pointer;
-  width: 13.5rem;
+  width: 14.5rem;
   padding: 15px;
   gap: 1rem;
   display: flex;
@@ -44,35 +45,56 @@ const Card = styled.div`
   }
 `;
 
-const Products = () => {
+const Products = ({ filters }) => {
   const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState([]);
 
-  const data = [
-    {
-      name: "lipstick ajdfaeofajel;faf w;ef oawpj fewpaojfeiopwja feopjfawj ff; fewoafwaojf owafj",
-      brand: "nykaa",
-      price: "100",
-      rating: 3,
-      image_link:
-        "https://cdn.shopify.com/s/files/1/1338/0845/products/brain-freeze_a_800x1200.jpg?v=1502255076",
-    },
-    {
-      name: "mascara",
-      brand: "nykaa",
-      price: "200",
-      rating: 4,
-      image_link:
-        "https://www.nyxcosmetics.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-cpd-nyxusa-master-catalog/default/dwb654afff/ProductImages/2018/Eyes/Worth_The_Hype_Volumizing_Mascara/800897140250_worththehypevolumizingmascara_main.jpg?sw=390&sh=390&sm=fit",
-    },
-  ];
+  const location = useLocation();
 
-  const getProducts = async () => {
+  // const products = [
+  //   {
+  //     name: "lipstick ajdfaeofajel;faf w;ef oawpj fewpaojfeiopwja feopjfawj ff; fewoafwaojf owafj",
+  //     brand: "nykaa",
+  //     price: "100",
+  //     rating: 3,
+  //     image_link:
+  //       "https://cdn.shopify.com/s/files/1/1338/0845/products/brain-freeze_a_800x1200.jpg?v=1502255076",
+  //   },
+  //   {
+  //     name: "mascara",
+  //     brand: "nykaa",
+  //     price: "200",
+  //     rating: 4,
+  //     image_link:
+  //       "https://www.nyxcosmetics.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-cpd-nyxusa-master-catalog/default/dwb654afff/ProductImages/2018/Eyes/Worth_The_Hype_Volumizing_Mascara/800897140250_worththehypevolumizingmascara_main.jpg?sw=390&sh=390&sm=fit",
+  //   },
+  // ];
+
+  const getProducts = async (filters) => {
+    try {
+      let res = await publicRequest.get("/product", { params: filters });
+      setProducts(res.data);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
     setLoading(false);
   };
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    let newFilters = { ...filters };
+    for (let key in newFilters) {
+      console.log(key, newFilters[key]);
+      if (newFilters[key].length === 0) {
+        delete newFilters[key];
+      } else if (Array.isArray(newFilters[key])) {
+        newFilters[key] = newFilters[key].join(",");
+      }
+    }
+    console.log(newFilters);
+    getProducts(newFilters);
+  }, [filters, location]);
 
   return (
     <Container>
@@ -82,38 +104,44 @@ const Products = () => {
         </div>
       ) : (
         <OuterCard>
-          {data.map((item) => {
+          {products.map((item) => {
             return (
-              <Card>
-                <div>
-                  <img
-                    src={item.image_link}
-                    alt="product"
-                    style={{ objectFit: "cover" }}
-                    width="170px"
-                    height="220px"
-                  />
-                </div>
-                <div>
-                  <p>
-                    <b>{item.name}</b>
-                  </p>
-                </div>
-                <div>{item.brand}</div>
-                <div>
-                  <p>USD:{item.price}$</p>
-                </div>
-                <div>
-                  <StarRatings
-                    rating={item.rating}
-                    starRatedColor="gold"
-                    numberOfStars={5}
-                    name="rating"
-                    starDimension="20px"
-                    starSpacing="2px"
-                  />
-                </div>
-              </Card>
+              <Link
+                to={`/product/${item._id}`}
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Card>
+                  <div>
+                    <img
+                      className="mt-0"
+                      src={item.image_link}
+                      alt="product"
+                      style={{ objectFit: "cover" }}
+                      width="170px"
+                      height="150px"
+                    />
+                  </div>
+                  <div>
+                    <p>
+                      <b>{item.name}</b>
+                    </p>
+                  </div>
+                  <div>{item.brand}</div>
+                  <div>
+                    <p>USD:{item.price}$</p>
+                  </div>
+                  <div>
+                    <StarRatings
+                      rating={item.rating}
+                      starRatedColor="gold"
+                      numberOfStars={5}
+                      name="rating"
+                      starDimension="20px"
+                      starSpacing="2px"
+                    />
+                  </div>
+                </Card>
+              </Link>
             );
           })}
         </OuterCard>

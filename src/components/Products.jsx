@@ -51,25 +51,6 @@ const Products = ({ filters }) => {
 
   const location = useLocation();
 
-  // const products = [
-  //   {
-  //     name: "lipstick ajdfaeofajel;faf w;ef oawpj fewpaojfeiopwja feopjfawj ff; fewoafwaojf owafj",
-  //     brand: "nykaa",
-  //     price: "100",
-  //     rating: 3,
-  //     image_link:
-  //       "https://cdn.shopify.com/s/files/1/1338/0845/products/brain-freeze_a_800x1200.jpg?v=1502255076",
-  //   },
-  //   {
-  //     name: "mascara",
-  //     brand: "nykaa",
-  //     price: "200",
-  //     rating: 4,
-  //     image_link:
-  //       "https://www.nyxcosmetics.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-cpd-nyxusa-master-catalog/default/dwb654afff/ProductImages/2018/Eyes/Worth_The_Hype_Volumizing_Mascara/800897140250_worththehypevolumizingmascara_main.jpg?sw=390&sh=390&sm=fit",
-  //   },
-  // ];
-
   const getProducts = async (filters) => {
     try {
       let res = await publicRequest.get("/product", { params: filters });

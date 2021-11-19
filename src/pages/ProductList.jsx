@@ -136,8 +136,7 @@ const ProductList = () => {
   };
 
   //handle product_type
-  const handleProductType = ({ target: { value, checked } }) => {
-    // eslint-disable-next-line no-restricted-globals
+  const handleProductType = ({ target: { name, checked } }) => {
     product_type[name] = checked;
     setProductType({ ...product_type });
     handleFilter("product_type");
@@ -161,7 +160,9 @@ const ProductList = () => {
   };
 
   useEffect(() => {
+    console.log("url location", location);
     const temp = location.pathname.split("/");
+    console.log(temp);
     if (temp[2] === "brand" || temp[2] === "product_type") {
       console.log("in product mounted");
       let event = {
@@ -180,6 +181,8 @@ const ProductList = () => {
       setFilter({ ...filter, name: "" });
     }
   }, [location]);
+
+  console.log("filtered data:", filter);
 
   return (
     <MainContainer>

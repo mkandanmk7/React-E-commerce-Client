@@ -71,9 +71,14 @@ export default function AdminUserList() {
     getUsers();
   }, []);
 
-  const handleDelete = async (id) => {
+  let deleteId;
+  const deleteUser = (id) => {
+    deleteId = id;
+  };
+
+  const handleDelete = async () => {
     try {
-      const res = await publicRequest.delete(`/users/${id}`, {
+      const res = await publicRequest.delete(`/users/${deleteId}`, {
         headers: {
           token: user.currentUser.token,
         },
@@ -108,8 +113,10 @@ export default function AdminUserList() {
               <Edit />
             </Link>
             <DeleteOutline
+              data-toggle="modal"
+              data-target="#deleteUser"
               style={{ color: "red", cursor: "pointer", marginLeft: "15px" }}
-              onClick={() => handleDelete(params.row._id)}
+              onClick={() => deleteUser(params.row._id)}
             />
           </>
         );
@@ -150,6 +157,28 @@ export default function AdminUserList() {
         )}
       </Maincontainer>
       {!loading && <Footer />}
+
+      <div className="modal  fade" id="deleteUser">
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-body">
+              Are you sure, You want to delete User ?
+            </div>
+            <div className="modal-footer">
+              <button
+                className="btn btn-danger"
+                data-dismiss="modal"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              <button className="btn btn-info" data-dismiss="modal">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

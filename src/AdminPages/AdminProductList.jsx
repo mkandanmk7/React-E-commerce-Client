@@ -67,6 +67,7 @@ const AddContainer = styled.div`
 const AdminProductList = () => {
   const [products, setProducts] = useState([]);
   const user = useSelector((state) => state.user);
+  console.log("user in products", user);
   const [loading, setLoading] = useState(false);
   const getProducts = async () => {
     try {
@@ -83,10 +84,15 @@ const AdminProductList = () => {
   useEffect(() => {
     getProducts();
   }, []);
+  let deleteId;
+  const deleteProduct = (id) => {
+    deleteId = id;
+  };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     try {
-      const res = await publicRequest.delete(`/product/${id}`, {
+      console.log("in product delete");
+      const res = await publicRequest.delete(`/product/${deleteId}`, {
         headers: {
           token: user.currentUser.token,
         },
@@ -94,6 +100,7 @@ const AdminProductList = () => {
       console.log(res);
       getProducts();
     } catch (err) {
+      console.log("err in ");
       console.log(err);
     }
   };
@@ -135,8 +142,10 @@ const AdminProductList = () => {
               <Edit />
             </Link>
             <DeleteOutline
+              data-toggle="modal"
+              data-target="#deletemodal"
               style={{ color: "red", cursor: "pointer", marginLeft: "15px" }}
-              onClick={() => handleDelete(params.row._id)}
+              onClick={() => deleteProduct(params.row._id)}
             />
           </>
         );
@@ -175,7 +184,30 @@ const AdminProductList = () => {
           </Container>
         )}
       </MainContainer>
+
       {!loading && <Footer />}
+
+      <div className="modal  fade" id="deletemodal">
+        <div className="modal-dialog modal-lg">
+          <div className="modal-content">
+            <div className="modal-body">
+              Are you sure, You want to delete product?
+            </div>
+            <div className="modal-footer">
+              <button
+                className="btn btn-danger"
+                data-dismiss="modal"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              <button className="btn btn-info" data-dismiss="modal">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

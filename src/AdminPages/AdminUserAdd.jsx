@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -12,6 +11,7 @@ import * as YUP from "yup";
 import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { large, small } from "../responsive";
+import { publicRequest } from "../axiosMethod";
 
 const Maincontainer = styled.div`
   background-color: whitesmoke;
@@ -66,7 +66,7 @@ const Label = styled.label`
 export default function AdminUserAdd() {
   const [info, setInfo] = useState("");
 
-  // const Puser=useSelector(state=>state.user)
+  const Puser = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
 
   const signInSchema = YUP.object().shape({
@@ -100,11 +100,9 @@ export default function AdminUserAdd() {
         <Container>
           <FormContainer>
             <div>
-              {" "}
               <h3 style={{ color: "white" }}>Add User</h3>
             </div>
             <div>
-              {" "}
               <Formik
                 initialValues={{
                   username: "",
@@ -114,32 +112,28 @@ export default function AdminUserAdd() {
                 }}
                 validationSchema={signInSchema}
                 onSubmit={async (values, { resetForm }) => {
-                  // setInfo("")
-                  setInfo("User Created Successfully");
-                  resetForm();
+                  setInfo("");
 
-                  //    setLoading(true)
-                  // const {confirmPassword,...others}={...values}
-                  // try
-                  // {
+                  setLoading(true);
+                  const { confirmPassword, ...others } = { ...values };
+                  try {
+                    const res = await publicRequest.post(
+                      `/auth/register`,
+                      others
+                    );
 
-                  // const res=await axios.post(`https://makeyouup-server.herokuapp.com/auth/register`,
-                  // others,
-                  // )
-
-                  // console.log(res)
-                  // if(res.status === 201) setInfo("User Created Successfully")
-                  // else if(res.status === 400) setInfo("User Already Exists")
-                  // resetForm()
-                  // setLoading(false)
-                  // }
-                  // catch(err)
-                  // {
-                  //     console.log(err)
-                  //     setInfo("oops something went wrong!")
-                  //     resetForm()
-                  //     setLoading(false)
-                  // }
+                    console.log(res);
+                    if (res.status === 201)
+                      setInfo("User Created Successfully");
+                    else if (res.status === 400) setInfo("User Already Exists");
+                    resetForm();
+                    setLoading(false);
+                  } catch (err) {
+                    console.log(err);
+                    setInfo("oops something went wrong!");
+                    resetForm();
+                    setLoading(false);
+                  }
                 }}
               >
                 {() => {
@@ -221,7 +215,6 @@ export default function AdminUserAdd() {
                       </div>
                       <div>
                         <Link to="/adminUserList">
-                          {" "}
                           <Button>View List</Button>
                         </Link>
                       </div>

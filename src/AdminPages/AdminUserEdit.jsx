@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -11,6 +10,7 @@ import * as YUP from "yup";
 import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { large, small } from "../responsive";
+import { publicRequest } from "../axiosMethod";
 
 //styled comp
 const Maincontainer = styled.div`
@@ -56,17 +56,11 @@ const Label = styled.label`
 `;
 
 const AdminUserList = () => {
-  // const [user,setUser]=useState({})
+  const [user, setUser] = useState({});
   const [info, setInfo] = useState("");
-  // const params=useParams()
-  // const Puser=useSelector(state=>state.user)
+  const params = useParams();
+  const Puser = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
-
-  //demo user
-  const user = {
-    username: "muthu",
-    email: "muthu@gmail.com",
-  };
 
   //schema
   const signInSchema = YUP.object().shape({
@@ -75,6 +69,28 @@ const AdminUserList = () => {
       .min(6, "Username length should be more than 5"),
     email: YUP.string().required("Please Enter Email").email(),
   });
+
+  const getUser = async () => {
+    try {
+      const res = await publicRequest.get(`/users/find/${params.id}`, {
+        headers: {
+          token: Puser.currentUser.token,
+        },
+      });
+      console.log(res.data);
+      setUser(res.data);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <Maincontainer>
@@ -98,26 +114,25 @@ const AdminUserList = () => {
                   validationSchema={signInSchema}
                   onSubmit={async (values, { resetForm }) => {
                     console.log(values);
-                    resetForm();
-                    setInfo("User Updated Successfully");
 
-                    // try
-                    // {
+                    try {
+                      const res = await publicRequest.put(
+                        `/users/${params.id}`,
+                        values,
+                        {
+                          headers: {
+                            token: Puser.currentUser.token,
+                          },
+                        }
+                      );
 
-                    // const res=await axios.put(`https://makeyouup-server.herokuapp.com/users/${params.id}`,
-                    // values,
-                    // {headers:{
-                    //     token:Puser.currentUser.token
-                    // }})
-
-                    // console.log(res)
-                    // setInfo("User Updated Successfully")
-                    // }
-                    // catch(err)
-                    // {
-                    //     console.log(err)
-                    //     setInfo("oops something went wrong!")
-                    // }
+                      console.log(res);
+                      setInfo("User Updated Successfully");
+                      resetForm();
+                    } catch (err) {
+                      console.log(err);
+                      setInfo("oops something went wrong!");
+                    }
                   }}
                 >
                   {() => {

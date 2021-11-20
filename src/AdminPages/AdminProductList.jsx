@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Loader from "react-loader-spinner";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -7,15 +7,23 @@ import { DataGrid } from "@material-ui/data-grid";
 
 import { DeleteOutline, Edit } from "@material-ui/icons";
 import Footer from "../components/Footer";
+import { publicRequest } from "../axiosMethod";
+import { useSelector } from "react-redux";
+import { large } from "../responsive";
 
 //styled comp
 
-const MainContainer = styled.div``;
-const Container = styled.div``;
-const Header = styled.div``;
-const AddContainer = styled.div``;
-const Button = styled.div``;
-const GridContainer = styled.div``;
+const MainContainer = styled.div`
+  background-color: whitesmoke;
+`;
+const Container = styled.div`
+  margin: 2rem 8rem;
+  ${large({ margin: "2rem 1rem" })}
+`;
+const GridContainer = styled.div`
+  background-color: white;
+  height: 100vh;
+`;
 
 const ProductDiv = styled.div`
   display: flex;
@@ -28,12 +36,67 @@ const ProductImg = styled.img`
   border-radius: 50%;
   object-fit: cover;
   margin-right: 10px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px,
+    rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px,
+    rgba(0, 0, 0, 0.07) 0px 16px 16px;
+`;
+
+const Button = styled.button`
+  padding: 5px 10px;
+  border: none;
+  background-color: #3bb077;
+  color: white;
+  cursor: pointer;
+  margin: 1rem;
+  height: 100%;
+  border-radius: 10px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  margin: 2rem 0;
+  width: 100%;
+`;
+
+const AddContainer = styled.div`
+  width: 100%;
+  text-align: right;
+  height: 3rem;
 `;
 
 const AdminProductList = () => {
   const [products, setProducts] = useState([]);
-  //    const user=useSelector(state=>state.user)
+  const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
+  const getProducts = async () => {
+    try {
+      setLoading(true);
+      const res = await publicRequest.get(`/product`);
+      setProducts(res.data);
+
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const res = await publicRequest.delete(`/product/${id}`, {
+        headers: {
+          token: user.currentUser.token,
+        },
+      });
+      console.log(res);
+      getProducts();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   //details
   const columns = [
@@ -45,12 +108,8 @@ const AdminProductList = () => {
       renderCell: (params) => {
         return (
           <ProductDiv>
-            <ProductImg
-              src="https://cdn.shopify.com/s/files/1/1338/0845/products/brain-freeze_a_800x1200.jpg?v=1502255076"
-              // {params.row.image_link}
-              alt=""
-            />
-            {/* {params.row.name} */}
+            <ProductImg src={params.row.image_link} alt="product_image" />
+            {params.row.name}
           </ProductDiv>
         );
       },
@@ -72,12 +131,12 @@ const AdminProductList = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/adminproductedit/" + 1}>
+            <Link to={`/adminproductedit/${params.row._id}`}>
               <Edit />
             </Link>
             <DeleteOutline
               style={{ color: "red", cursor: "pointer", marginLeft: "15px" }}
-              /* onClick={() => handleDelete(params.row._id)} */
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );

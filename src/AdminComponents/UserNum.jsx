@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { publicRequest } from "../axiosMethod";
 
 //styled comp
 const TableContainer = styled.div`
@@ -10,15 +12,23 @@ const TableContainer = styled.div`
 `;
 
 const UserNum = () => {
-  // const user=useSelector(state=>state.user)
-  // const [users, setUsers] = useState([]);
+  const user = useSelector((state) => state.user);
+  const [users, setUsers] = useState([]);
 
-  const users = [
-    {
-      username: "muthu",
-      email: "muthu@gmail.com",
-    },
-  ];
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const res = await publicRequest.get(`/users/?new=true`, {
+          headers: {
+            token: user.currentUser.token,
+          },
+        });
+        console.log(res);
+        setUsers(res.data);
+      } catch (error) {}
+    };
+    getUsers();
+  }, []);
   return (
     <TableContainer>
       <h4>Newly Added Users</h4>

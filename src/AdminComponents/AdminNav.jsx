@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { medium, small } from "../responsive";
+import { useDispatch, useSelector } from "react-redux";
 
 //styled comp
 const NavContainer = styled.div`
@@ -49,8 +50,9 @@ const Item = styled.div`
 `;
 
 const AdminNav = () => {
-  // const dispatch = useDispatch();
-  // const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  console.log("user details", user);
   const history = useNavigate();
   return (
     <NavContainer>
@@ -61,37 +63,37 @@ const AdminNav = () => {
           </Left>
         </Link>
         <Right>
-          {/* {user.currentUser && ( */}
-          <>
-            <Item>
-              <p style={{ width: "5.5rem" }}>
-                Hi,
-                {/* {user.currentUser.username} */}
-              </p>
-            </Item>
-          </>
-          {/* )} */}
+          {user.currentUser && (
+            <>
+              <Item>
+                <p style={{ width: "5.5rem" }}>
+                  Hi,
+                  {user.currentUser.username}
+                </p>
+              </Item>
+            </>
+          )}
 
-          {/* {!user.currentUser && ( */}
-          <>
-            <Link
-              to="/login"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Item>
-                <p>LogIn</p>
-              </Item>
-            </Link>
-            <Link
-              to="/register"
-              style={{ textDecoration: "none", color: "inherit" }}
-            >
-              <Item>
-                <p>Register</p>
-              </Item>
-            </Link>
-          </>
-          {/* )} */}
+          {!user.currentUser && (
+            <>
+              <Link
+                to="/login"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Item>
+                  <p>LogIn</p>
+                </Item>
+              </Link>
+              <Link
+                to="/register"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Item>
+                  <p>Register</p>
+                </Item>
+              </Link>
+            </>
+          )}
 
           <Link
             to="/adminProductList"
@@ -110,20 +112,20 @@ const AdminNav = () => {
             </Item>
           </Link>
 
-          {/* {user.currentUser && ( */}
-          <>
-            <Item>
-              <p
-                onClick={() => {
-                  // dispatch({ type: "logOut" });
-                  history("/");
-                }}
-              >
-                LogOut
-              </p>
-            </Item>
-          </>
-          {/* )} */}
+          {user.currentUser && (
+            <>
+              <Item>
+                <p
+                  onClick={() => {
+                    dispatch({ type: "logOut" });
+                    history("/");
+                  }}
+                >
+                  LogOut
+                </p>
+              </Item>
+            </>
+          )}
         </Right>
       </Wrapper>
     </NavContainer>

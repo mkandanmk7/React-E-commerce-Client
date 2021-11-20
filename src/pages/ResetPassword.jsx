@@ -7,6 +7,7 @@ import { large } from "../responsive";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { publicRequest } from "../axiosMethod";
 
 //styled comp
 const Container = styled.div`
@@ -82,6 +83,9 @@ const ResetPassword = () => {
   const id = param.id;
   const token = param.token;
 
+  console.log("id: ", id);
+  console.log("token:", token);
+
   const resetSchema = YUP.object().shape({
     password: YUP.string()
       .required("Please Enter password...")
@@ -108,23 +112,22 @@ const ResetPassword = () => {
             validationSchema={resetSchema}
             onSubmit={async (values, { resetForm }) => {
               console.log(values);
-              resetForm();
-              setInfo("Please log in again with the new password");
 
-              // try{
+              try {
+                const response = await publicRequest.post(
+                  `/auth/verifyAndUpdatePassword/${id}/${token}`,
+                  {
+                    password: values.password,
+                  }
+                );
+                console.log(response);
 
-              //     const response = await axios.post(`https://makeyouup-server.herokuapp.com/auth/verifyAndUpdatePassword/${id}/${token}`,{
-              //         password:values.password
-              //     })
-              //     console.log(response)
-
-              //     setInfo("Please log in again with the new password")
-              //     }
-              //     catch(err)
-              //     {
-              //         setInfo("Something went wrong")
-              //          console.log(err)
-              //     }
+                setInfo("Please log in again with the new password");
+                resetForm();
+              } catch (err) {
+                setInfo("Something went wrong");
+                console.log(err.message);
+              }
             }}
           >
             {() => {

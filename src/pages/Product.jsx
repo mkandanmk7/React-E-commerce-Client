@@ -114,41 +114,25 @@ const CartButton = styled.div`
 `;
 
 const Product = () => {
+  const id = useParams().productId;
   //states
   let [product, setProduct] = useState({});
+  console.log("product details", product);
   const [loading, setLoading] = useState(true);
   let [shadeIn, setShade] = React.useState("");
   let [quantity, setQuantity] = React.useState(1);
-  const id = useParams().productId;
+  console.log(id);
   const dispatch = useDispatch();
   const [alert, setAlert] = useState(false);
   const [error, setError] = useState(false);
 
-  //product single
-
-  // const product = {
-  //   name: "lipstick ajdfaeofajel;faf w;ef oawpj fewpaojfeiopwja feopjfawj ff; fewoafwaojf owafj",
-  //   brand: "nykaa",
-  //   price: "100",
-  //   description:
-  //     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur ab fuga expedita maiores itaque, dolores voluptate eum. Harum deserunt eius architecto voluptatibus soluta debitis. Obcaecati iste ex animi voluptas accusantium",
-  //   product_colors: [
-  //     { hex_value: "#acd" },
-  //     { hex_value: "#fcd" },
-  //     { hex_value: "#13d" },
-  //     { hex_value: "#aff" },
-  //   ],
-  //   rating: 3,
-  //   image_link:
-  //     "https://cdn.shopify.com/s/files/1/1338/0845/products/brain-freeze_a_800x1200.jpg?v=1502255076",
-  // };
-
   const getProduct = async (id) => {
     try {
+      console.log("in product");
       //id getting from url params ;
       let res = await publicRequest.get(`/product/find/${id}`);
+      console.log(res);
       setProduct(res.data);
-      console.log(res.data);
       setLoading(false);
     } catch (error) {
       console.log(error);
@@ -157,7 +141,7 @@ const Product = () => {
 
   useEffect(() => {
     getProduct(id);
-  }, [id]);
+  });
 
   //handleshade
   const handleShade = (value) => {
@@ -182,17 +166,18 @@ const Product = () => {
     let cartProduct = { ...product, quantity, product_colors };
     console.log(cartProduct);
     if (product.product_colors.length > 0) {
+      if (cartProduct.product_colors.length > 0) {
+        setAlert(true);
+        dispatch({ type: "addProduct", payload: cartProduct });
+        setError(false);
+      } else {
+        setError(true);
+      }
+    } else {
       setAlert(true);
       dispatch({ type: "addProduct", payload: cartProduct });
       setError(false);
-    } else {
-      setError(true);
     }
-    // else{
-    //   setAlert(true);
-    //   dispatch({type:"addProduct",payload:cartProduct});
-    //   setError(false);
-    // }
   };
 
   return (
@@ -264,9 +249,10 @@ const Product = () => {
                       <>
                         <h5>Choose Shades</h5>
                         <Shades>
-                          {product.product_colors.map((shade) => {
+                          {product.product_colors.map((shade, index) => {
                             return (
                               <ShadeSingle
+                                key={index}
                                 hexValue={shade.hex_value}
                                 shade={shadeIn}
                                 onClick={() => {

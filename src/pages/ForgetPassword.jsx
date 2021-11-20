@@ -7,6 +7,7 @@ import { large } from "../responsive";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
+import { publicRequest } from "../axiosMethod";
 
 //styled comps
 const Container = styled.div`
@@ -106,12 +107,22 @@ const ForgetPassword = () => {
             }}
             validationSchema={forgetSchema}
             onSubmit={async (values, { resetForm }) => {
-              console.log("in submit register");
+              console.log("in submit forgot pass");
+              setLoading(true);
               console.log(values);
-
-              // setLoading(true);
-              resetForm(); //reset inputs after submit
-              setInfo("Please check your email for activation link");
+              try {
+                const res = await publicRequest.post("/auth/resettoken", {
+                  email: values.email,
+                });
+                console.log(res);
+                setInfo("Please check Your email for activation link");
+                setLoading(false);
+                resetForm();
+              } catch (err) {
+                setInfo("Email already exists");
+                console.log(err);
+                setLoading(false);
+              }
             }}
           >
             {() => {

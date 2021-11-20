@@ -98,7 +98,7 @@ const Items = () => {
         {productsData.map((item) => {
           i++;
           return (
-            <InnerContainer>
+            <InnerContainer key={item.id}>
               <Image src={itemArray[i]} />
               <HideCard>
                 <div>

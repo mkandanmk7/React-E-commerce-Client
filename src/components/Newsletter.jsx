@@ -64,7 +64,7 @@ const Newsletter = () => {
             Grab your discount and timely updates for your favourite product
           </p>
         </div>
-        <div class="position-relative">
+        <div classssName="position-relative">
           <Input type="text" placeholder="your Email" />
           <Button>
             <SendOutlined />

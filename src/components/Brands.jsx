@@ -107,7 +107,7 @@ const Brands = () => {
         {BrandData.map((brand) => {
           i++;
           return (
-            <BrandInner>
+            <BrandInner key={brand.id}>
               <BrandImage>
                 <img
                   src={brandArray[i]}

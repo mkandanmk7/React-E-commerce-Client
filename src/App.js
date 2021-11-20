@@ -40,7 +40,7 @@ function App() {
           {/* Admin page Routes*/}
           <Route path="/adminhome" element={<AdminHome />} />
           <Route path="/adminproductlist" element={<AdminProductList />} />
-          <Route path="/adminproductedit" element={<AdminProductEdit />} />
+          <Route path="/adminproductedit/:id" element={<AdminProductEdit />} />
           <Route path="/adminuserlist" element={<AdminUserList />} />
 
           <Route path="/adminuseredit/:id" element={<AdminUserEdit />} />

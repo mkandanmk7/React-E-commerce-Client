@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as YUP from "yup";
+import { useParams } from "react-router";
 import styled from "styled-components";
 import AdminNav from "../AdminComponents/AdminNav";
 import { ScreenLockLandscapeSharp } from "@material-ui/icons";
@@ -7,6 +8,8 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 import { large, small } from "../responsive";
+import { useSelector } from "react-redux";
+import { publicRequest } from "../axiosMethod";
 
 //styled comp
 const MainContainer = styled.div`
@@ -68,23 +71,11 @@ const Label = styled.label`
 `;
 
 const AdminProductEdit = () => {
-  // const [product,setProduct]=useState({})
+  const [product, setProduct] = useState({});
   const [info, setInfo] = useState("");
-  // const params=useParams()
-  // const user=useSelector(state=>state.user)
+  const params = useParams();
+  const user = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
-
-  const product = {
-    name: "lipstick",
-    brand: "nyx",
-    price: 234,
-    image_link: "",
-    description: "good product",
-    rating: 3,
-    product_type: "lips",
-  };
-
-  const colors = ["red", "green"];
 
   //yup schema
   const signInSchema = YUP.object().shape({
@@ -97,6 +88,29 @@ const AdminProductEdit = () => {
     product_type: YUP.string().required("Please Enter Product type"),
     product_colors: YUP.array(),
   });
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const res = await publicRequest.get(`/product/find/${params.id}`);
+        setProduct(res.data);
+        setLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!product.name) return [];
+  let colors;
+  if (product.product_colors.length > 1) {
+    colors = product.product_colors.map((a) => {
+      return a.hex_value;
+    });
+    console.log(product.product_colors, colors);
+  }
 
   return (
     <>
@@ -131,10 +145,27 @@ const AdminProductEdit = () => {
                   }}
                   validationSchema={signInSchema}
                   onSubmit={async (values, { resetForm }) => {
-                    console.log("in update submit");
                     console.log(values);
-                    resetForm();
-                    setInfo("Product Updated Successfully");
+                    try {
+                      setLoading(true);
+                      const res = await publicRequest.put(
+                        `/product/${params.id}`,
+                        values,
+                        {
+                          headers: {
+                            token: user.currentUser.token,
+                          },
+                        }
+                      );
+                      console.log(res);
+                      setLoading(false);
+                      setInfo("product updated Successfully");
+                      resetForm();
+                    } catch (err) {
+                      setInfo("Oops Something wet Wrong...!");
+                      console.log(err);
+                      setLoading(false);
+                    }
                   }}
                 >
                   {() => {

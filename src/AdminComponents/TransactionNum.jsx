@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { publicRequest } from "../axiosMethod";
 
 //styled comp
 const Container = styled.div`
@@ -10,17 +12,23 @@ const Container = styled.div`
 `;
 
 const TransactionNum = () => {
-  // const user=useSelector(state=>state.user)
-  // const [orders, setOrders] = useState([]);
+  const user = useSelector((state) => state.user);
+  const [orders, setOrders] = useState([]);
 
-  const orders = [
-    {
-      userId: 1,
-      amount: 100,
-      createdAt: Date.now(),
-      address: { city: "coimbatore" },
-    },
-  ];
+  useEffect(() => {
+    const getOrders = async () => {
+      try {
+        const res = await publicRequest.get(`/order`, {
+          headers: {
+            token: user.currentUser.token,
+          },
+        });
+        console.log("admin transaction ", res.data);
+        setOrders(res.data);
+      } catch {}
+    };
+    getOrders();
+  }, []);
 
   return (
     <Container>

@@ -8,9 +8,9 @@ import Footer from "../components/Footer";
 import { DataGrid } from "@material-ui/data-grid";
 import { Link } from "react-router-dom";
 import { DeleteOutline, Edit } from "@material-ui/icons";
-import axios from "axios";
 import Loader from "react-loader-spinner";
 import { large } from "../responsive";
+import { publicRequest } from "../axiosMethod";
 
 const Maincontainer = styled.div`
   background-color: whitesmoke;
@@ -47,34 +47,43 @@ const AddContainer = styled.div`
 `;
 export default function AdminUserList() {
   const [users, setUsers] = useState([]);
-  // const user=useSelector(state=>state.user)
-  const [loading, setLoading] = useState(false);
+  const user = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(true);
+  console.log("user received in userlist", user);
+  const getUsers = async () => {
+    console.log("getting user ..");
+    setLoading(true);
+    try {
+      const res = await publicRequest.get(`/users`, {
+        headers: {
+          token: user.currentUser.token,
+        },
+      });
+      setUsers(res.data);
+      console.log(res.data);
+      setLoading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  // const getUsers = async () => {
-  //     setLoading(true)
-  //     try {
-  //       const res= await axios.get(`https://makeyouup-server.herokuapp.com/users`,{headers:{
-  //         token:user.currentUser.token
-  //     }})
-  //       setUsers(res.data);
-  //       setLoading(false)
-  //     } catch {}
-  //   };
+  useEffect(() => {
+    getUsers();
+  }, []);
 
-  //    useEffect(()=>{
-  //     getUsers();
-  //    },[])
-
-  //    const handleDelete = async(id) => {
-  //     try {
-  //         const res= await axios.delete(`https://makeyouup-server.herokuapp.com/users/${id}`,{headers:{
-  //             token:user.currentUser.token
-  //         }})
-  //         console.log(res)
-  //         getUsers()
-  //       } catch {}
-
-  //   };
+  const handleDelete = async (id) => {
+    try {
+      const res = await publicRequest.delete(`/users/${id}`, {
+        headers: {
+          token: user.currentUser.token,
+        },
+      });
+      console.log(res);
+      getUsers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const columns = [
     { field: "_id", headerName: "ID", width: 300 },
@@ -95,12 +104,12 @@ export default function AdminUserList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/adminuseredit/" + 1}>
+            <Link to={`/adminuseredit/${params.row._id}`}>
               <Edit />
             </Link>
             <DeleteOutline
               style={{ color: "red", cursor: "pointer", marginLeft: "15px" }}
-              // onClick={() => handleDelete(params.row._id)}
+              onClick={() => handleDelete(params.row._id)}
             />
           </>
         );

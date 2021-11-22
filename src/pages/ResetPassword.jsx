@@ -5,7 +5,6 @@ import * as YUP from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { large } from "../responsive";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { publicRequest } from "../axiosMethod";
 

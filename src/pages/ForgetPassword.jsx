@@ -4,7 +4,6 @@ import background from "../assets/login/login.jfif";
 import * as YUP from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { large } from "../responsive";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { publicRequest } from "../axiosMethod";
@@ -114,7 +113,7 @@ const ForgetPassword = () => {
                 const res = await publicRequest.post("/auth/resettoken", {
                   email: values.email,
                 });
-                console.log(res);
+                console.log(res.data);
                 setInfo("Please check Your email for activation link");
                 setLoading(false);
                 resetForm();

@@ -141,7 +141,7 @@ const Product = () => {
 
   useEffect(() => {
     getProduct(id);
-  });
+  }, [id]);
 
   //handleshade
   const handleShade = (value) => {

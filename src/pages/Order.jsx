@@ -51,7 +51,7 @@ const Order = () => {
   const [loading, setLoading] = useState(false);
   //   const [order, setOrder] = useState([]);
   // const user=useSelector(state=>state.user)
-
+  console.log(setLoading);
   return (
     <>
       <MainContainer>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { medium, small } from "../responsive";
 
@@ -74,45 +75,47 @@ const Button = styled.button`
 `;
 
 const CartItem = () => {
-  const cart = {
-    products: [
-      {
-        name: "lipstick ",
-        brand: "nykaa",
-        price: 100,
-        quantity: 5,
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur ab fuga expedita maiores itaque, dolores voluptate eum. Harum deserunt eius architecto voluptatibus soluta debitis. Obcaecati iste ex animi voluptas accusantium",
-        product_colors: [
-          { hex_value: "#acd" },
-          { hex_value: "#fcd" },
-          { hex_value: "#13d" },
-          { hex_value: "#aff" },
-        ],
-        rating: 3,
-        image_link:
-          "https://cdn.shopify.com/s/files/1/1338/0845/products/brain-freeze_a_800x1200.jpg?v=1502255076",
-      },
+  // const cart = {
+  //   products: [
+  //     {
+  //       name: "lipstick ",
+  //       brand: "nykaa",
+  //       price: 100,
+  //       quantity: 5,
+  //       description:
+  //         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur ab fuga expedita maiores itaque, dolores voluptate eum. Harum deserunt eius architecto voluptatibus soluta debitis. Obcaecati iste ex animi voluptas accusantium",
+  //       product_colors: [
+  //         { hex_value: "#acd" },
+  //         { hex_value: "#fcd" },
+  //         { hex_value: "#13d" },
+  //         { hex_value: "#aff" },
+  //       ],
+  //       rating: 3,
+  //       image_link:
+  //         "https://cdn.shopify.com/s/files/1/1338/0845/products/brain-freeze_a_800x1200.jpg?v=1502255076",
+  //     },
 
-      {
-        name: "maskara",
-        brand: "kaa",
-        price: 200,
-        quantity: 3,
-        description:
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur ab fuga expedita maiores itaque, dolores voluptate eum. Harum deserunt eius architecto voluptatibus soluta debitis. Obcaecati iste ex animi voluptas accusantium",
-        product_colors: "#13d",
-        //   { hex_value: "#acd" },
-        //   { hex_value: "#fcd" },
-        //   { hex_value: "#13d" },
-        //   { hex_value: "#aff" },
-        // ],
-        rating: 3,
-        image_link:
-          "https://www.nyxcosmetics.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-cpd-nyxusa-master-catalog/default/dw2e036256/ProductImages/Eyes/Doll_Eye_Mascara/800897123543_dolleyemascara_longlash_black_main.jpg?sw=390&sh=390&sm=fit",
-      },
-    ],
-  };
+  //     {
+  //       name: "maskara",
+  //       brand: "kaa",
+  //       price: 200,
+  //       quantity: 3,
+  //       description:
+  //         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur ab fuga expedita maiores itaque, dolores voluptate eum. Harum deserunt eius architecto voluptatibus soluta debitis. Obcaecati iste ex animi voluptas accusantium",
+  //       product_colors: "#13d",
+  //       //   { hex_value: "#acd" },
+  //       //   { hex_value: "#fcd" },
+  //       //   { hex_value: "#13d" },
+  //       //   { hex_value: "#aff" },
+  //       // ],
+  //       rating: 3,
+  //       image_link:
+  //         "https://www.nyxcosmetics.com/dw/image/v2/AANG_PRD/on/demandware.static/-/Sites-cpd-nyxusa-master-catalog/default/dw2e036256/ProductImages/Eyes/Doll_Eye_Mascara/800897123543_dolleyemascara_longlash_black_main.jpg?sw=390&sh=390&sm=fit",
+  //     },
+  //   ],
+  // };
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
 
   return (
     <OuterContainer>
@@ -158,13 +161,13 @@ const CartItem = () => {
                 </div>
                 <div className="mx-auto">
                   <Button
-                  // onClick={() => {
-                  //   dispatch({
-                  //     type: "removeItem",
-                  //     itemNo: cart.products.indexOf(product),
-                  //     product: product,
-                  //   });
-                  // }}
+                    onClick={() => {
+                      dispatch({
+                        type: "removeItem",
+                        itemNo: cart.products.indexOf(product),
+                        product: product,
+                      });
+                    }}
                   >
                     Remove
                   </Button>

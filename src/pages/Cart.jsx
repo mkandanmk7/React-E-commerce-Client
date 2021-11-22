@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from "react";
 import { Toast, ToastContainer } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import CartItem from "../components/CartItem";
@@ -9,7 +11,9 @@ import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import UpperAnnouncement from "../components/UpperAnnouncement";
 import { large, medium } from "../responsive";
-
+import { useNavigate } from "react-router";
+import { publicRequest } from "../axiosMethod";
+import StripeCheckout from "react-stripe-checkout";
 //styled comp
 const MainContainer = styled.div`
   background-color: whitesmoke;
@@ -75,12 +79,44 @@ const SummaryLine = styled.div`
 `;
 
 const Cart = () => {
-  const [alert, setAlert] = useState(true);
-
-  let cart = {
-    total: 50,
-    products: ["lipstick", "mascara", "nyx"],
+  const cart = useSelector((state) => state.cart);
+  const [stripeToken, setStripeToken] = useState(null);
+  const history = useNavigate();
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [alert, setAlert] = useState(false);
+  const onToken = (token) => {
+    console.log(token);
+    setStripeToken(token);
   };
+
+  useEffect(() => {
+    const makeRequest = async () => {
+      try {
+        console.log(cart.total);
+        const res = await publicRequest.post(
+          "/payment",
+          {
+            tokenId: stripeToken.id,
+            amount: 500,
+          },
+          {
+            headers: {
+              token: user.currentUser.token,
+            },
+          }
+        );
+        dispatch({ type: "emptyCart" });
+        history("/success", {
+          stripeData: res.data,
+          products: cart,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    stripeToken && makeRequest();
+  }, [stripeToken]);
 
   return (
     <>
@@ -110,7 +146,6 @@ const Cart = () => {
           <div>
             <h1>Your Bag</h1>
           </div>
-          <div></div>
         </TopButtons>
         <Container>
           {cart.products.length > 0 ? (
@@ -140,7 +175,7 @@ const Cart = () => {
                 </SummaryLine>
 
                 {/* stipes */}
-                {/* <div>
+                <div>
                   {user.currentUser ? (
                     <StripeCheckout
                       name="MakeYouUp"
@@ -150,7 +185,7 @@ const Cart = () => {
                       description={`Your Cart Total is $ ${cart.total}`}
                       amount={cart.total * 100}
                       token={onToken}
-                      stripeKey="pk_test_51JpnsFSJXTWe5Zf11N05XLzTKIGjBGK5H030E43f2cOWiJnaGM6fXqHt7FMEqLEs6BqbjZosPSLxGWgblW8V04CU00CSqFgR2n"
+                      stripeKey="pk_test_51Jx2WuSG7y1nLb4U9u9WivGzguKP1yPcnIMNrkXBAs7Hi4JiHfVYbETDhDDYUsoU3ZoGh7twA468JIIvhcPgizPd00E0HW7iaS"
                     >
                       <Button>Checkout</Button>
                     </StripeCheckout>
@@ -165,7 +200,7 @@ const Cart = () => {
                       </Button>
                     </>
                   )}
-                </div> */}
+                </div>
 
                 <div className="text-danger my-5 ">
                   <p className="text-center bg-info p-3 text-light">

@@ -18,6 +18,8 @@ const NavContainer = styled.div`
   top: 0px;
   width: 100%;
   background-color: #25283d;
+  z-index: 1;
+
   color: #fff; ;
 `;
 const Wrapper = styled.div`

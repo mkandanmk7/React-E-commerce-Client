@@ -18,6 +18,7 @@ const NavContainer = styled.div`
   top: 0px;
   width: 100%;
   background-color: #25283d;
+  opacity: 0.9;
   z-index: 1;
 
   color: #fff; ;
@@ -33,6 +34,7 @@ const Wrapper = styled.div`
 `;
 const Left = styled.div`
   font-family: "Cookie", cursive;
+
   cursor: pointer;
   font-size: 3rem;
   flex: 1;
@@ -112,6 +114,7 @@ const SmallerDiv = styled.div`
 
 const Navbar = () => {
   const quantity = useSelector((state) => state.quantity);
+  console.log("quantity", quantity);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   console.log(user);
@@ -124,7 +127,15 @@ const Navbar = () => {
       <Wrapper>
         <Link to="/" style={{ textDecoration: "none" }}>
           <Left>
-            <p>Make You Up</p>
+            <p
+              style={{
+                display: "flex",
+                alignItems: "center",
+                lineHeight: "20%",
+              }}
+            >
+              Make You Up
+            </p>
           </Left>
         </Link>
         <Middle>
@@ -210,7 +221,7 @@ const Navbar = () => {
           <Item>
             <Link style={{ color: "inherit" }} to="/cart">
               <p>
-                <Badge badgeContent={quantity} color="primary">
+                <Badge color="primary" badgeContent={quantity}>
                   <ShoppingCartOutlined />
                 </Badge>
               </p>
@@ -225,30 +236,75 @@ const Navbar = () => {
       </Wrapper>
 
       <SmallerDiv>
+        {user.currentUser && (
+          <>
+            <Item>
+              <p style={{ width: "5.5rem" }}>Hi, {user.currentUser.username}</p>
+            </Item>
+          </>
+        )}
+        <Link
+          style={{ textDecoration: "none", color: "inherit" }}
+          to={"/products"}
+        >
+          <Item>
+            {" "}
+            <p>Explore</p>
+          </Item>
+        </Link>
+        {!user.currentUser && (
+          <>
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              {" "}
+              <Item>
+                {" "}
+                <p>LogIn</p>
+              </Item>
+            </Link>
+            <Link
+              to="/register"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              {" "}
+              <Item>
+                {" "}
+                <p>Register</p>
+              </Item>
+            </Link>
+          </>
+        )}
+        {user.currentUser && (
+          <>
+            <Item>
+              <p
+                onClick={() => {
+                  dispatch({ type: "logOut" });
+                  history.push("/");
+                }}
+              >
+                LogOut
+              </p>
+            </Item>
+          </>
+        )}
         <Item>
-          <p>Hi</p>
+          <Link style={{ color: "inherit" }} to="/cart">
+            {" "}
+            <p>
+              <Badge color="primary" badgeContent={quantity}>
+                <ShoppingCartOutlined />
+              </Badge>
+            </p>
+          </Link>
         </Item>
+
         <Item>
-          <p>Explor</p>
-        </Item>
-        <Item>
-          <p>Login</p>
-        </Item>
-        <Item>
-          <p>Register</p>
-        </Item>
-        <Item>
-          <p>Logout</p>
-        </Item>
-        <Item>
-          <p>
-            <Badge>
-              <ShoppingCartOutlined />
-            </Badge>
-          </p>
-        </Item>
-        <Item className="d-flex align-items-center">
-          <LocalMallOutlined />
+          <Link style={{ color: "inherit" }} to="/order">
+            <LocalMallOutlined />
+          </Link>
         </Item>
       </SmallerDiv>
     </NavContainer>

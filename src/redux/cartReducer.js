@@ -28,11 +28,12 @@ export const cartReducer = (state = initialState, action) => {
     }
     case "removeItem": {
       let tempProd = [...state.products];
-      tempProd.splice(action.itemNo, 1); // remove 1 elements only
+      tempProd.splice(action.itemNo, 1);
       console.log(tempProd);
+      console.log(action.product);
       return {
-        ...state,
-        proudcts: [...tempProd],
+        state,
+        products: [...tempProd],
         quantity: state.quantity - 1,
         total: state.total - action.product.price * action.product.quantity,
       };

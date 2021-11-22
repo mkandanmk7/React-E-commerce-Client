@@ -77,14 +77,15 @@ const Button = styled.button`
 const CartItem = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+
   console.log(cart);
 
   return (
     <OuterContainer>
-      {cart.products.map((product) => {
+      {cart.products.map((product, index) => {
         return (
           <>
-            <CartContainer key={product._id}>
+            <CartContainer>
               <ImageContainer>
                 <img
                   src={product.image_link}

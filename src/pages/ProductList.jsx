@@ -34,7 +34,7 @@ const FilterContainer = styled.div`
 
   position: sticky;
   align-self: flex-start;
-  top: 0;
+  top: 50px;
   height: 100vh;
   overflow-y: auto;
 `;
@@ -423,11 +423,11 @@ const ProductList = () => {
               </CheckboxContainer>
             </BrandContainer>
           </BrandContainer>
-          <BrandContainer style={{ margin: "1.5rem 0" }}>
+          <BrandContainer style={{ margin: "1.5rem 0 " }}>
             <p>
               <b>Price Range</b>
             </p>
-            <div>
+            <div style={{ marginBottom: "20px", paddingBottom: "20px" }}>
               <MultiRangeSlider
                 min={1}
                 max={35}

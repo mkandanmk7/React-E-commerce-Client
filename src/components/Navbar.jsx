@@ -91,9 +91,7 @@ const Right = styled.div`
 ${small({ display: "none" })}
 `;
 const Item = styled.div`
-  display: flex;
-  align-items: center;
-
+  margin-top: 10px;
   & > * {
     cursor: pointer;
     font-size: 1.12rem;
@@ -229,7 +227,7 @@ const Navbar = () => {
           </Item>
           <Item>
             <Link style={{ color: "inherit" }} to="/order">
-              <LocalMallOutlined />
+              <LocalMallOutlined style={{ marginBottom: "20px" }} />
             </Link>
           </Item>
         </Right>

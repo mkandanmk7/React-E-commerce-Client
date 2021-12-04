@@ -43,7 +43,6 @@ function App() {
           <Route path="/adminproductlist" element={<AdminProductList />} />
           <Route path="/adminproductedit/:id" element={<AdminProductEdit />} />
           <Route path="/adminuserlist" element={<AdminUserList />} />
-
           <Route path="/adminuseredit/:id" element={<AdminUserEdit />} />
           <Route path="/adminuseradd" element={<AdminUserAdd />} />
         </Routes>
